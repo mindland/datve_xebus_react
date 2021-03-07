@@ -1,21 +1,42 @@
 import React, { Component } from "react";
+import classNames from "classnames";
 
 class GheItem extends Component {
-  
-  chonGhe = () => { 
-    this.props.chonGhe(this.props.data); 
-  }
+  state = {
+    isBooking: false,
+  };
+
+  chonGhe = () => {
+    this.props.chonGhe(this.props.data);
+
+    this.setState({
+      isBooking: !this.state.isBooking
+    })
+  };
 
   render() {
+    const ClassNameButton = [
+      "btn",
+      { "btn-success": this.state.isBooking },
+      { "btn-secondary": !this.state.isBooking },
+      { "btn-danger": this.props.data.TrangThai }
+      ,
+    ];
+
     return (
       <button
+        
         type="button"
-        className={`btn ${ this.props.data.TrangThai  ? 'btn-success' : 'btn-secondary'}`}
+        className={classNames(ClassNameButton)}
+        // className={`btn ${ this.props.data.TrangThai  ? 'btn-success' : 'btn-secondary'}`} 
+
         style={{ width: "40px" }}
         onClick={this.chonGhe}
+
+        disabled={this.props.data.TrangThai}
       >
-        {this.props.data.SoGhe}
-      </button>
+        {this.props.data.SoGhe} 
+      </button> 
     );
   }
 }

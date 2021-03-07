@@ -1,17 +1,12 @@
 import React, { Component } from "react";
 
 class DanhSachGheDangDat extends Component {
-
-  xoaGheDaDat = (item) => () => {
-    this.props.chonGhe(item)
-  }
-
   renderGheDaDat = () => {
     return this.props.data.map((item) => {
       return (
         <p className="h5 pb-2">
           Ghế: {item.TenGhe} ${item.Gia}{" "}
-          <button type="button" class="btn btn-outline-danger btn-sm" onClick={this.xoaGheDaDat(item)}>
+          <button type="button" className="btn btn-outline-danger btn-sm" >
             Hủy
           </button>
         </p>

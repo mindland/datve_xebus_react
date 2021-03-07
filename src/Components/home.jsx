@@ -32,10 +32,10 @@ class Home extends Component {
     { SoGhe: 26, TenGhe: "số 26 ", Gia: 100, TrangThai: false },
     { SoGhe: 27, TenGhe: "số 27 ", Gia: 100, TrangThai: false },
     { SoGhe: 28, TenGhe: "số 28 ", Gia: 100, TrangThai: false },
-    { SoGhe: 29, TenGhe: "số 29 ", Gia: 100, TrangThai: false },
+    { SoGhe: 29, TenGhe: "số 29 ", Gia: 100, TrangThai: true },
     { SoGhe: 30, TenGhe: "số 30 ", Gia: 100, TrangThai: false },
     { SoGhe: 31, TenGhe: "số 31 ", Gia: 100, TrangThai: false },
-    { SoGhe: 32, TenGhe: "số 32 ", Gia: 100, TrangThai: false },
+    { SoGhe: 32, TenGhe: "số 32 ", Gia: 100, TrangThai: true },
     { SoGhe: 33, TenGhe: "số 33 ", Gia: 100, TrangThai: false },
     { SoGhe: 34, TenGhe: "số 34 ", Gia: 100, TrangThai: false },
     { SoGhe: 35, TenGhe: "số 35 ", Gia: 100, TrangThai: false },
@@ -44,37 +44,30 @@ class Home extends Component {
 
   state = {
     danhSachGhe: this.danhSachGhe,
+    danhSachGheDangDat: [],
   };
 
   chonGhe = (gheFromChild) => {
-    let index = this.state.danhSachGhe.findIndex(
+    let danhSachGheDangDat = [...this.state.danhSachGheDangDat];
+
+    let index = danhSachGheDangDat.findIndex(
       (element) => element.SoGhe === gheFromChild.SoGhe
     );
 
-    let DSGhe = [...this.state.danhSachGhe];
-    DSGhe[index].TrangThai = !this.state.danhSachGhe[index].TrangThai;
-    
-    localStorage.setItem("danhSachGhe", JSON.stringify(DSGhe));
-    
+    // nếu ghế chưa được đặt
+    if (index === -1) {
+      danhSachGheDangDat.push(gheFromChild);
+    } else {
+      // nếu ghế đã được đặt rồi thì xóa ra khỏi mảng
+      danhSachGheDangDat.splice(index, 1);
+    }
+
     this.setState({
-      danhSachGhe: DSGhe,
+      danhSachGheDangDat,
     });
-
-
   };
 
-  fetchDanhSachGhe = () => {
-    const gheJSON = localStorage.getItem("danhSachGhe"); 
-    if(!gheJSON) return; 
-
-    this.setState({
-      danhSachGhe : JSON.parse(gheJSON),
-    })
-  }
-
   render() {
-    const gheDaDat = this.state.danhSachGhe.filter( item => item.TrangThai === true)
-  
     return (
       <div className="container px-5">
         <h2 className="text-center" style={{ color: "#D0B916" }}>
@@ -87,16 +80,12 @@ class Home extends Component {
             <DanhSachGhe data={this.state.danhSachGhe} chonGhe={this.chonGhe} />
           </div>
           <div className="col-3">
-            <DanhSachGheDangDat data={gheDaDat} chonGhe={this.chonGhe}/>
+            <DanhSachGheDangDat data={this.state.danhSachGheDangDat} />
           </div>
           <div className="col-3"></div>
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {  // ham nay tu dong chay sau khi render trang web 
-    this.fetchDanhSachGhe();
   }
 }
 
