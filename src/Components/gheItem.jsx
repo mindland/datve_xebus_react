@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 class GheItem extends Component {
+  
   chonGhe = () => { 
     this.props.chonGhe(this.props.data); 
   }

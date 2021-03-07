@@ -54,13 +54,27 @@ class Home extends Component {
     let DSGhe = [...this.state.danhSachGhe];
     DSGhe[index].TrangThai = !this.state.danhSachGhe[index].TrangThai;
     
+    localStorage.setItem("danhSachGhe", JSON.stringify(DSGhe));
+    
     this.setState({
       danhSachGhe: DSGhe,
     });
+
+
   };
+
+  fetchDanhSachGhe = () => {
+    const gheJSON = localStorage.getItem("danhSachGhe"); 
+    if(!gheJSON) return; 
+
+    this.setState({
+      danhSachGhe : JSON.parse(gheJSON),
+    })
+  }
 
   render() {
     const gheDaDat = this.state.danhSachGhe.filter( item => item.TrangThai === true)
+  
     return (
       <div className="container px-5">
         <h2 className="text-center" style={{ color: "#D0B916" }}>
@@ -70,7 +84,7 @@ class Home extends Component {
         <div className="row">
           <div className="col-3"></div>
           <div className="col-3">
-            <DanhSachGhe data={this.danhSachGhe} chonGhe={this.chonGhe} />
+            <DanhSachGhe data={this.state.danhSachGhe} chonGhe={this.chonGhe} />
           </div>
           <div className="col-3">
             <DanhSachGheDangDat data={gheDaDat} chonGhe={this.chonGhe}/>
@@ -79,6 +93,10 @@ class Home extends Component {
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {  // ham nay tu dong chay sau khi render trang web 
+    this.fetchDanhSachGhe();
   }
 }
 

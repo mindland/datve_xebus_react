@@ -10,7 +10,7 @@ class DanhSachGheDangDat extends Component {
     return this.props.data.map((item) => {
       return (
         <p className="h5 pb-2">
-          Ghế: số {item.SoGhe} ${item.Gia}{" "}
+          Ghế: {item.TenGhe} ${item.Gia}{" "}
           <button type="button" class="btn btn-outline-danger btn-sm" onClick={this.xoaGheDaDat(item)}>
             Hủy
           </button>
